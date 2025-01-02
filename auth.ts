@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import "next-auth/jwt"
+import Github from "next-auth/providers/github"
 import Google from "next-auth/providers/google"
 import { createStorage } from "unstorage"
 import memoryDriver from "unstorage/drivers/memory"
@@ -21,7 +22,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   theme: { logo: "https://authjs.dev/img/logo-sm.png" },
   adapter: UnstorageAdapter(storage),
   providers: [
-   
+    Github
     Google,
   
   ],
