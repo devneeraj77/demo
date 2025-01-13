@@ -2,7 +2,7 @@ import NextAuth from "next-auth"
 import "next-auth/jwt"
 import Github from "next-auth/providers/github"
 import Google from "next-auth/providers/google"
-import Credentials from "next-auth/providers/credentials"
+import Credentials from "next-auth/provider/"
 import { createStorage } from "unstorage"
 import memoryDriver from "unstorage/drivers/memory"
 import vercelKVDriver from "unstorage/drivers/vercel-kv"
@@ -11,10 +11,10 @@ import { UnstorageAdapter } from "@auth/unstorage-adapter"
 const storage = createStorage({
   driver: process.env.VERCEL
     ? vercelKVDriver({
-        url: process.env.AUTH_KV_REST_API_URL,
-        token: process.env.AUTH_KV_REST_API_TOKEN,
-        env: false,
-      })
+      url: process.env.AUTH_KV_REST_API_URL,
+      token: process.env.AUTH_KV_REST_API_TOKEN,
+      env: false,
+    })
     : memoryDriver(),
 })
 
@@ -26,14 +26,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Github,
     Google,
     Credentials({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "email", placeholder: "user@example.com" },
-        username: { label: "Username", type: "text", placeholder: "yourusername" },
-        name: { label: "Name", type: "text", placeholder: "Your Full Name" },
-        password: { label: "Password", type: "password" },
-      },
-  
+      email: { label: "Email", type: "email", placeholder: "user@example.com" },
+      username: { label: "Username", type: "text", placeholder: "yourusername" },
+      name: { label: "Name", type: "text", placeholder: "Your Full Name" },
+      password: { label: "Password", type: "password" },
+    })
   ],
   basePath: "/auth",
   session: { strategy: "jwt" },
