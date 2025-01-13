@@ -2,6 +2,7 @@ import NextAuth from "next-auth"
 import "next-auth/jwt"
 import Github from "next-auth/providers/github"
 import Google from "next-auth/providers/google"
+import Credentials from "next-auth/providers/credentials"
 import { createStorage } from "unstorage"
 import memoryDriver from "unstorage/drivers/memory"
 import vercelKVDriver from "unstorage/drivers/vercel-kv"
@@ -24,6 +25,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Github,
     Google,
+    Credentials({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email", placeholder: "user@example.com" },
+        username: { label: "Username", type: "text", placeholder: "yourusername" },
+        name: { label: "Name", type: "text", placeholder: "Your Full Name" },
+        password: { label: "Password", type: "password" },
+      },
   
   ],
   basePath: "/auth",
